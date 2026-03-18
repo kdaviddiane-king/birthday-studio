@@ -4,8 +4,8 @@
 //    avoir créé votre projet sur supabase.com
 // ═══════════════════════════════════════════
 
-const SUPABASE_URL = 'VOTRE_SUPABASE_URL';      // ex: https://xxxx.supabase.co
-const SUPABASE_ANON_KEY = 'VOTRE_SUPABASE_ANON_KEY'; // clé publique (anon)
+const SUPABASE_URL = 'sb_publishable_CO5jUFgm2pDejQt9Cfe2qw_fMYmqWir';      // ex: https://xxxx.supabase.co
+const SUPABASE_ANON_KEY = 'sb_secret_hVd8UAY4GQclrIh4LtJSNg_8a5Eyfaf'; // clé publique (anon)
 
 // Initialisation du client Supabase
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
