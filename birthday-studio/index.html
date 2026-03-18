@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Birthday Studio — Affiches d'anniversaire</title>
+  <meta name="description" content="Créez de magnifiques affiches d'anniversaire personnalisées, animées et exportables.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎂</text></svg>">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,700;1,400;1,600&family=DM+Sans:wght@300;400;500&family=Bebas+Neue&family=Pacifico&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<!-- AUTH MODAL -->
+<div id="auth-overlay" class="auth-overlay">
+  <div class="auth-modal">
+    <div class="auth-logo">🎂</div>
+    <h1 class="auth-title">Birthday Studio</h1>
+    <p class="auth-sub">Créez & sauvegardez vos affiches</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Connexion</button>
+      <button class="auth-tab" id="tab-signup" onclick="switchTab('signup')">Créer un compte</button>
+    </div>
+
+    <div id="auth-form">
+      <input class="auth-input" type="email" id="auth-email" placeholder="votre@email.com">
+      <input class="auth-input" type="password" id="auth-password" placeholder="Mot de passe">
+      <div id="auth-name-wrap" style="display:none">
+        <input class="auth-input" type="text" id="auth-name" placeholder="Votre prénom">
+      </div>
+      <button class="auth-btn" id="auth-submit" onclick="handleAuth()">Se connecter</button>
+      <div id="auth-error" class="auth-error"></div>
+    </div>
+
+    <div class="auth-divider"><span>ou</span></div>
+    <button class="auth-btn-ghost" onclick="continueAsGuest()">Continuer sans compte →</button>
+    <p class="auth-note">Avec un compte, vos cartes sont sauvegardées en ligne.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app" style="display:none">
+
+  <!-- TOP BAR -->
+  <header id="topbar">
+    <div class="topbar-left">
+      <span class="logo-mark">🎂</span>
+      <span class="logo-text">Birthday Studio</span>
+    </div>
+    <div class="topbar-right">
+      <button class="tb-btn" id="btn-gallery" onclick="showGallery()" style="display:none">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Mes cartes
+      </button>
+      <div id="user-chip" style="display:none">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <span id="user-name-display"></span>
+        <button class="tb-btn-sm" onclick="handleLogout()">↗</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main id="main">
+
+    <!-- GALLERY VIEW -->
+    <div id="gallery-view" style="display:none">
+      <div class="gallery-header">
+        <h2 class="gallery-title">Mes cartes sauvegardées</h2>
+        <button class="btn-create" onclick="showStudio()">+ Nouvelle carte</button>
+      </div>
+      <div id="gallery-grid" class="gallery-grid">
+        <div class="gallery-empty" id="gallery-empty">
+          <div style="font-size:48px;margin-bottom:.5rem">🎨</div>
+          <p>Aucune carte sauvegardée pour l'instant.</p>
+          <button class="btn-create" onclick="showStudio()">Créer ma première carte</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STUDIO VIEW -->
+    <div id="studio-view">
+
+      <div id="wizard">
+
+        <!-- HERO -->
+        <div id="hero">
+          <div class="hero-kicker">Studio créatif</div>
+          <div class="hero-title">Affiche d'anniversaire</div>
+          <div class="hero-sub">Personnalisée · Animée · Exportable</div>
+        </div>
+
+        <!-- STEPPER -->
+        <div id="stepper">
+          <div class="sp act" id="s1">1</div><div class="sl"></div>
+          <div class="sp" id="s2">2</div><div class="sl"></div>
+          <div class="sp" id="s3">3</div><div class="sl"></div>
+          <div class="sp" id="s4">4</div>
+        </div>
+
+        <!-- CARD 1: Upload + Info -->
+        <div class="card" id="c1">
+          <div class="section-label"><span>1</span>Photo & informations</div>
+          <div id="drop">
+            <div id="drop-icon">📸</div>
+            <div id="drop-txt">Glissez une photo ici ou <strong id="browse">parcourez</strong></div>
+            <div class="drop-hint">JPG · PNG · WEBP</div>
+          </div>
+          <input type="file" id="fi" accept="image/*">
+          <div id="chip">
+            <img id="chip-thumb" src="" alt="">
+            <span id="chip-name"></span>
+            <span id="chip-change">Changer ↗</span>
+          </div>
+          <div class="fields-wrap">
+            <div class="frow">
+              <div class="fg">
+                <div class="fl">Prénom</div>
+                <input class="fi-input" id="fn" type="text" placeholder="Sophie" maxlength="18">
+              </div>
+              <div class="fg">
+                <div class="fl">Âge</div>
+                <input class="fi-input" id="fa" type="text" placeholder="30 ans" maxlength="14">
+              </div>
+            </div>
+            <div class="fg">
+              <div class="fl">Message</div>
+              <textarea class="fi-input" id="fm" rows="2" placeholder="Que cette journée brille autant que toi…"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: Model -->
+        <div class="card" id="c2">
+          <div class="section-label"><span>2</span>Modèle de carte</div>
+          <div id="mgrid"></div>
+        </div>
+
+        <!-- CARD 3: Theme -->
+        <div class="card" id="c3">
+          <div class="section-label"><span>3</span>Palette</div>
+          <div id="tgrid"></div>
+        </div>
+
+        <!-- CARD 4: Generate -->
+        <div class="card" id="c4" style="padding:.9rem">
+          <button id="gbtn" onclick="generate()">Créer l'affiche &nbsp;✦</button>
+        </div>
+
+        <!-- STAGE -->
+        <div id="stage">
+          <div id="poster-wrap">
+            <div id="poster">
+              <canvas id="pcv"></canvas>
+            </div>
+          </div>
+
+          <div id="fx-strip">
+            <button class="fx-btn" id="fxconf" onclick="fireConfetti(90)"><div class="fx-icon">🎊</div>Confettis</button>
+            <button class="fx-btn" id="fxball" onclick="toggleBalloons()"><div class="fx-icon">🎈</div>Ballons</button>
+            <button class="fx-btn" id="fxspark" onclick="toggleSparkles()"><div class="fx-icon">✨</div>Étoiles</button>
+            <button class="fx-btn" id="fxsave" onclick="saveCard()" style="display:none"><div class="fx-icon">💾</div>Sauver</button>
+            <button class="fx-btn lit" id="fxexp" onclick="toggleExport()"><div class="fx-icon">⬇</div>Exporter</button>
+          </div>
+
+          <div id="exp-card" class="on">
+            <div class="exp-title">Exporter la carte</div>
+            <div id="exp-grid">
+              <button class="eb epng" onclick="exportPNG()"><div class="ebi">🖼</div><div class="ebt">PNG<small>Haute résolution</small></div></button>
+              <button class="eb ejpg" onclick="exportJPG()"><div class="ebi">📷</div><div class="ebt">JPEG<small>Léger & partageable</small></div></button>
+              <button class="eb ehtml" onclick="exportHTML()"><div class="ebi">🌐</div><div class="ebt">HTML animé<small>Confettis inclus</small></div></button>
+              <button class="eb ecopy" onclick="exportCopy()"><div class="ebi">📋</div><div class="ebt">Copier<small>Presse-papiers</small></div></button>
+            </div>
+            <div class="exp-note">💡 <b>PNG/JPEG</b> → s'ouvre dans un onglet, clic droit pour enregistrer. <b>HTML</b> → téléchargement direct avec animations.</div>
+          </div>
+
+          <button id="back-btn" onclick="goBack()">← Modifier la carte</button>
+        </div>
+
+      </div>
+    </div>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="src/supabase.js"></script>
+<script src="src/auth.js"></script>
+<script src="src/studio.js"></script>
+<script src="src/gallery.js"></script>
+</body>
+</html>
