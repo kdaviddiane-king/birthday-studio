@@ -32,9 +32,33 @@ let hasSparkles = false;
 window.addEventListener('DOMContentLoaded', () => {
   buildModelGrid();
   buildThemeGrid();
+  buildTrackGrid();
   setupUpload();
   setStep(1);
 });
+
+function buildTrackGrid() {
+  const grid = document.getElementById('track-grid');
+  if (!grid) return;
+  TRACKS.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = 'trk' + (i === 0 ? ' sel' : '');
+    div.innerHTML = `<div class="trk-icon">${t.nm.split(' ')[0]}</div><div class="trk-name">${t.nm.split(' ').slice(1).join(' ')}</div><div class="trk-desc">${t.desc}</div>`;
+    div.addEventListener('click', () => selectTrack(i));
+    grid.appendChild(div);
+  });
+}
+
+function toggleMusicPanel() {
+  const panel = document.getElementById('music-panel');
+  const expCard = document.getElementById('exp-card');
+  panel.classList.toggle('on');
+  if (panel.classList.contains('on')) {
+    expCard.classList.remove('on');
+    document.getElementById('fxexp').classList.remove('lit');
+  }
+  document.getElementById('fxmusic').classList.toggle('lit', panel.classList.contains('on'));
+}
 
 function buildModelGrid() {
   const grid = document.getElementById('mgrid');
@@ -140,6 +164,7 @@ function generate() {
 
   buildPosterCanvas();
   setTimeout(() => fireConfetti(60), 400);
+  autoPlayMusic();
 }
 
 function goBack() {
@@ -150,6 +175,8 @@ function goBack() {
   hasBalloons = false; hasSparkles = false;
   const bl = document.getElementById('pbal');
   if (bl) bl.remove();
+  stopMusic();
+  document.getElementById('music-panel').classList.remove('on');
   setStep(1);
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
@@ -454,7 +481,12 @@ function toggleSparkles() {
 
 function toggleExport() {
   const ec = document.getElementById('exp-card');
+  const mp = document.getElementById('music-panel');
   ec.classList.toggle('on');
+  if (ec.classList.contains('on')) {
+    mp.classList.remove('on');
+    document.getElementById('fxmusic').classList.remove('lit');
+  }
   document.getElementById('fxexp').classList.toggle('lit', ec.classList.contains('on'));
 }
 
