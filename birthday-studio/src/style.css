@@ -534,6 +534,59 @@ body::before {
 }
 #back-btn:hover { border-color: var(--edge2); color: var(--txt); }
 
+/* Music panel */
+#music-panel {
+  background: var(--ink2); border: 1px solid var(--edge);
+  border-radius: 14px; padding: 1.2rem; margin-top: 8px;
+  display: none;
+}
+#music-panel.on { display: block; animation: slideDown .3s ease; }
+
+.music-panel-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.music-playing-indicator {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 10px; color: var(--teal); font-weight: 500;
+}
+.music-bar {
+  width: 3px; border-radius: 2px; background: var(--teal);
+  animation: musicBar .8s ease-in-out infinite alternate;
+}
+.music-bar:nth-child(1) { height: 8px; animation-delay: 0s; }
+.music-bar:nth-child(2) { height: 14px; animation-delay: .2s; }
+.music-bar:nth-child(3) { height: 10px; animation-delay: .4s; }
+@keyframes musicBar { from { transform: scaleY(.4); } to { transform: scaleY(1); } }
+
+#track-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 7px;
+  margin-bottom: 10px;
+}
+.trk {
+  padding: 10px; border-radius: 10px; cursor: pointer;
+  border: 1px solid var(--edge); background: var(--ink3);
+  transition: all .2s; text-align: left;
+}
+.trk:hover { border-color: var(--edge2); transform: translateY(-1px); }
+.trk.sel { border-color: var(--teal); background: rgba(77,217,192,.08); }
+.trk-icon { font-size: 20px; margin-bottom: 4px; }
+.trk-name { font-size: 12px; font-weight: 600; color: var(--txt); }
+.trk-desc { font-size: 10px; color: var(--dim); margin-top: 1px; }
+
+.music-controls { display: flex; align-items: center; gap: 10px; }
+
+.music-play-btn {
+  padding: 9px 20px; border-radius: 100px; border: none;
+  background: linear-gradient(135deg, var(--teal), var(--blue));
+  color: var(--ink); font-family: var(--font-body); font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .2s; flex-shrink: 0;
+}
+.music-play-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(77,217,192,.3); }
+
+.music-note { font-size: 10px; color: var(--dim); line-height: 1.5; }
+
 /* Toast */
 #toast {
   position: fixed; bottom: 1.5rem; left: 50%;
